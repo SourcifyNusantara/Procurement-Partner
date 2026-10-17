@@ -285,7 +285,8 @@ nav{padding:8px 18px 20px}
 const CONFIG={
   waNumber:"6280000000000",   // format internasional tanpa + (contoh: 6281234567890)
   email:"email@contoh.com",
-  waDisplay:"[NOMOR WHATSAPP]"
+  waDisplay:"[NOMOR WHATSAPP]",
+  sheetUrl:"https://script.google.com/macros/s/AKfycbxVyDXy1G-5zyqzMvEW8g0o8OOQNwd5JXcrPvLhKXan1jwQ4amdXzefcOz6xv75h_UJcQ/exec"  // URL Google Apps Script (Web app)
 };
 /* ===== DATA ===== */
 const I={
@@ -355,7 +356,7 @@ function open(key,pre){
   cur=key;last=document.activeElement;const F=FORMS[key];
   md.innerHTML=`<div class="mh"><div><h2 id="mt" style="font-size:1.6rem;margin:0">${F.title}</h2><span class="muted">${F.sub}</span></div><button class="x" aria-label="Tutup" data-close>×</button></div>
   <div class="prog"><b id="pb"></b></div>
-  <form id="fm" novalidate><div class="fg">${F.f.map(f=>field(f,pre)).join("")}</div><p class="warn">${F.note}</p><div class="row"><button class="btn navy" type="submit">Tinjau Ringkasan</button><button class="btn ghost" type="button" data-close>Batal</button></div></form>`;
+  <form id="fm" novalidate><div style="position:absolute;left:-9999px" aria-hidden="true"><label>Website<input id="hp" name="website" tabindex="-1" autocomplete="off"></label></div><div class="fg">${F.f.map(f=>field(f,pre)).join("")}</div><p class="warn">${F.note}</p><div class="row"><button class="btn navy" type="submit">Tinjau Ringkasan</button><button class="btn ghost" type="button" data-close>Batal</button></div></form>`;
   ov.classList.add("on");document.body.style.overflow="hidden";
   $("#pb").style.width="33%";
   $("#fm").addEventListener("submit",e=>{e.preventDefault();review()});
@@ -388,18 +389,30 @@ function review(){
     if(v)vals[f.l.replace(/ <em>.*/,"")]=v;
   });
   if(!ok){first.focus();return}
+  window.HP=($("#hp")||{}).value||"";
   $("#pb").style.width="66%";
-  md.querySelector("#fm").outerHTML=`<h3 style="margin-top:8px">Periksa data Anda</h3><table class="sum">${Object.entries(vals).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table><p class="warn">Tombol di bawah akan membuka WhatsApp dengan pesan terisi. Data baru terkirim setelah Anda menekan kirim di WhatsApp.</p><div class="row"><button class="btn gold" id="send">${F.btn}</button><button class="btn ghost" id="back">Ubah data</button></div>`;
-  $("#send").onclick=send;$("#back").onclick=()=>{const p=vals;open(cur);Object.keys(p).length};
+  md.querySelector("#fm").outerHTML=`<h3 style="margin-top:8px">Periksa data Anda</h3><table class="sum">${Object.entries(vals).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table><p class="warn">Data akan dikirim langsung ke tim kami. Pastikan semuanya sudah benar.</p><div class="row"><button class="btn gold" id="send">${F.btn}</button><button class="btn ghost" id="back">Ubah data</button></div>`;
+  $("#send").onclick=send;$("#back").onclick=()=>{const p=vals;open(cur);FORMS[cur].f.forEach(f=>{const el=document.getElementById("f_"+f.n.replace(/\W/g,""));if(!el||f.t==="file"||!(f.l in p))return;if(f.t==="checkbox")el.checked=true;else el.value=p[f.l]})};
   md.scrollIntoView({block:"start"});
 }
-function send(){
-  const F=FORMS[cur];
-  const txt=`*${F.title.toUpperCase()}*\n`+Object.entries(vals).map(([k,v])=>`${k}: ${v}`).join("\n");
-  window.open(`https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(txt)}`,"_blank","noopener");
+function waLink(){const F=FORMS[cur];const txt=`*${F.title.toUpperCase()}*\n`+Object.entries(vals).map(([k,v])=>`${k}: ${v}`).join("\n");return `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(txt)}`}
+async function send(){
+  const F=FORMS[cur],btn=$("#send");btn.disabled=true;btn.textContent="Mengirim…";
+  let ok=false;
+  try{
+    const r=await fetch(CONFIG.sheetUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({form:F.title,data:vals,website:window.HP||""})});
+    const j=await r.json();ok=!!(r.ok&&j&&j.ok);
+  }catch(e){ok=false}
   $("#pb").style.width="100%";
-  md.innerHTML=`<div class="mh"><h2 id="mt" style="font-size:1.5rem;margin:0">WhatsApp sudah terbuka</h2><button class="x" aria-label="Tutup" data-close>×</button></div><p style="margin-top:14px">Pesan Anda sudah disiapkan. <strong>Tekan tombol kirim di WhatsApp</strong> agar pesan benar-benar sampai ke tim kami. Jika WhatsApp tidak terbuka, hubungi kami lewat <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p><p class="muted">Tim akan menghubungi Anda untuk langkah berikutnya. Tidak ada komitmen yang terbentuk sebelum ada kesepakatan.</p><div class="row"><button class="btn navy" data-close>Selesai</button></div>`;
+  const wa=`<a class="btn ghost" href="${waLink()}" target="_blank" rel="noopener">Kirim juga via WhatsApp</a>`;
+  if(ok){
+    md.innerHTML=`<div class="mh"><h2 id="mt" style="font-size:1.5rem;margin:0">Data berhasil terkirim</h2><button class="x" aria-label="Tutup" data-close>×</button></div><p style="margin-top:14px">Terima kasih. Data Anda sudah kami terima dan tim akan menghubungi Anda untuk langkah berikutnya.</p><p class="muted">Tidak ada komitmen yang terbentuk sebelum ada kesepakatan tertulis.${vals["Foto/dokumen spesifikasi"]||vals["Dokumen usaha atau katalog"]?" Berkas yang Anda pilih belum ikut terkirim; mohon lampirkan lewat WhatsApp atau email.":""}</p><div class="row"><button class="btn navy" data-close>Selesai</button>${wa}</div>`;
+  }else{
+    md.innerHTML=`<div class="mh"><h2 id="mt" style="font-size:1.5rem;margin:0">Data belum terkirim</h2><button class="x" aria-label="Tutup" data-close>×</button></div><p style="margin-top:14px">Terjadi kendala koneksi. Data Anda belum tersimpan. Silakan coba lagi, atau kirim lewat WhatsApp/email <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p><div class="row"><button class="btn gold" id="retry">Coba kirim lagi</button>${wa}</div>`;
+    $("#retry").onclick=()=>{md.innerHTML=`<div id="rt"></div>`;review2()};
+  }
 }
+function review2(){md.innerHTML=`<h3>Periksa data Anda</h3><table class="sum">${Object.entries(vals).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table><div class="row"><button class="btn gold" id="send">${FORMS[cur].btn}</button></div>`;$("#send").onclick=send}
 function close(){ov.classList.remove("on");document.body.style.overflow="";if(last)last.focus()}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-form]");if(b){open(b.dataset.form,b.dataset.type);return}

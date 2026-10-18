@@ -424,7 +424,10 @@ const bg=$("#burger"),menu=$("#menu");
 bg.onclick=()=>{const o=menu.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
 menu.addEventListener("click",e=>{if(e.target.tagName==="A"){menu.classList.remove("open");bg.setAttribute("aria-expanded",false)}});
 $("#waLink").href="https://wa.me/"+CONFIG.waNumber;$("#waLink").textContent="WhatsApp: "+CONFIG.waDisplay;
-$("#mailLink").href="mailto:"+CONFIG.email;$("#mailLink").textContent=CONFIG.email;
+const mailSubject="Pertanyaan dari website Sourcify Nusantara",isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),ml=$("#mailLink");
+ml.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent(mailSubject);
+ml.addEventListener("click",e=>{if(isMobile)return;e.preventDefault();window.open("https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(CONFIG.email)+"&su="+encodeURIComponent(mailSubject),"_blank","noopener")});
+$("#mailLink").textContent=CONFIG.email;
 $("#yr").textContent=new Date().getFullYear();
 </script>
 </body>

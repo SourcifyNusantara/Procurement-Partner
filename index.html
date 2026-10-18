@@ -126,6 +126,7 @@ h2{font-size:1.5rem;max-width:none}
 .sum td:first-child{width:38%}
 nav{padding:8px 18px 20px}
 }
+.doc h3{font-size:1.05rem;margin:1.5em 0 .4em}.doc p,.doc li{color:var(--muted);font-size:.97rem;max-width:none}.doc ul{padding-left:1.2em;margin:.3em 0 1em}.doc a{text-decoration:underline}.upd{font-size:.85rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -279,6 +280,7 @@ nav{padding:8px 18px 20px}
 </footer>
 
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="modal" id="modal"></div></div>
+<div class="ov" id="ov2" style="z-index:60" role="dialog" aria-modal="true" aria-labelledby="mt2"><div class="modal doc" id="modal2"></div></div>
 
 <script>
 /* ===== KONFIGURASI — edit di sini ===== */
@@ -314,7 +316,7 @@ const FAQ=[
 ["Apakah mitra harus memiliki pengalaman?","Pengalaman purchasing atau sourcing membantu, tetapi kebutuhan berbeda untuk setiap peran. Kami menilai kompetensi dan bentuk kontribusi secara individual."],
 ["Apakah mitra mendapat gaji tetap atau komisi?","Belum ada jaminan gaji tetap maupun komisi tetap. Bentuk kerja sama, target, dan kompensasi dibahas secara transparan dan disepakati sebelum komitmen dibuat."],
 ["Apakah supplier yang mendaftar otomatis mendapatkan pesanan?","Tidak. Pendaftaran hanya membuka komunikasi. Penawaran dibahas ketika ada kebutuhan klien yang relevan."],
-["Bagaimana kerahasiaan informasi dijaga?","Data yang Anda kirim hanya digunakan untuk keperluan pengadaan atau seleksi kemitraan. Kebijakan kerahasiaan rinci: [AKAN DILENGKAPI di Kebijakan Privasi]."],
+["Bagaimana kerahasiaan informasi dijaga?","Data yang Anda kirim hanya digunakan untuk keperluan pengadaan atau seleksi kemitraan. Rinciannya ada di Kebijakan Privasi pada bagian bawah halaman ini."],
 ["Bagaimana tahapan kerja sama dilakukan?","Lihat bagian Cara Kerja di atas. Intinya: kebutuhan dikirim, diklarifikasi, dibahas, lalu dilanjutkan setelah ada kesepakatan."]
 ];
 document.getElementById("faqs").innerHTML=FAQ.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join("");
@@ -356,7 +358,7 @@ function open(key,pre){
   cur=key;last=document.activeElement;const F=FORMS[key];
   md.innerHTML=`<div class="mh"><div><h2 id="mt" style="font-size:1.6rem;margin:0">${F.title}</h2><span class="muted">${F.sub}</span></div><button class="x" aria-label="Tutup" data-close>×</button></div>
   <div class="prog"><b id="pb"></b></div>
-  <form id="fm" novalidate><div style="position:absolute;left:-9999px" aria-hidden="true"><label>Website<input id="hp" name="website" tabindex="-1" autocomplete="off"></label></div><div class="fg">${F.f.map(f=>field(f,pre)).join("")}</div><p class="warn">${F.note}</p><div class="row"><button class="btn navy" type="submit">Tinjau Ringkasan</button><button class="btn ghost" type="button" data-close>Batal</button></div></form>`;
+  <form id="fm" novalidate><div style="position:absolute;left:-9999px" aria-hidden="true"><label>Website<input id="hp" name="website" tabindex="-1" autocomplete="off"></label></div><div class="fg">${F.f.map(f=>field(f,pre)).join("")}</div><p class="warn">${F.note}</p><p class="muted" style="font-size:.85rem;margin:12px 0 0">Dengan mengirim formulir ini, Anda menyetujui <a href="#" data-doc="Kebijakan Privasi">Kebijakan Privasi</a> dan <a href="#" data-doc="Syarat dan Ketentuan">Syarat dan Ketentuan</a> kami.</p><div class="row"><button class="btn navy" type="submit">Tinjau Ringkasan</button><button class="btn ghost" type="button" data-close>Batal</button></div></form>`;
   ov.classList.add("on");document.body.style.overflow="hidden";
   $("#pb").style.width="33%";
   $("#fm").addEventListener("submit",e=>{e.preventDefault();review()});
@@ -413,13 +415,112 @@ async function send(){
   }
 }
 function review2(){md.innerHTML=`<h3>Periksa data Anda</h3><table class="sum">${Object.entries(vals).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table><div class="row"><button class="btn gold" id="send">${FORMS[cur].btn}</button></div>`;$("#send").onclick=send}
+const UPD="Terakhir diperbarui: 18 Oktober 2026";
+const DOCS={
+"Kebijakan Privasi":`<p class="upd muted">${UPD}</p>
+<p>Kebijakan Privasi ini menjelaskan bagaimana Sourcify Nusantara ("Kami"), usaha yang berkedudukan di Kabupaten Bogor, Provinsi Jawa Barat, Indonesia, mengumpulkan, menggunakan, dan melindungi data pribadi Anda saat menggunakan situs ini dan mengirim formulir kepada Kami.</p>
+<h3>1. Data yang Kami kumpulkan</h3>
+<p>Kami hanya mengumpulkan data yang Anda isi sendiri melalui formulir atau kirim melalui WhatsApp dan email, yaitu:</p>
+<ul>
+<li><b>Formulir kebutuhan klien B2B:</b> nama perusahaan, nama dan jabatan PIC, email, nomor WhatsApp, jenis usaha, rincian barang yang dibutuhkan (nama, spesifikasi, merek, jumlah, estimasi anggaran, lokasi dan target waktu pengiriman), serta catatan tambahan.</li>
+<li><b>Formulir mitra:</b> nama lengkap, nomor WhatsApp, email, kota domisili, latar belakang dan pengalaman, kompetensi, jaringan supplier, ketersediaan waktu, tautan profil atau portofolio, dan alasan berkolaborasi.</li>
+<li><b>Formulir supplier:</b> nama perusahaan, PIC, kontak, alamat usaha, jenis usaha, kategori dan merek produk, MOQ, area pengiriman, waktu pemenuhan, ketentuan pembayaran, dan catatan.</li>
+<li><b>Berkas lampiran:</b> formulir hanya mencatat nama berkas yang Anda pilih. Isi berkas tidak terkirim lewat formulir; berkas hanya kami terima bila Anda mengirimnya sendiri melalui WhatsApp atau email.</li>
+</ul>
+<p>Kami tidak meminta data sensitif seperti nomor KTP, data kesehatan, atau data keuangan pribadi. Mohon tidak mencantumkannya di kolom isian.</p>
+<h3>2. Tujuan penggunaan data</h3>
+<ul>
+<li>Menanggapi permintaan Anda dan menghubungi Anda melalui WhatsApp atau email.</li>
+<li>Mencari supplier, mengumpulkan serta membandingkan penawaran untuk kebutuhan pengadaan klien.</li>
+<li>Menilai kesesuaian calon mitra dan supplier, serta membahas bentuk kerja sama.</li>
+<li>Menyimpan catatan komunikasi dan dokumentasi pengadaan, serta memenuhi kewajiban hukum bila ada.</li>
+</ul>
+<p>Kami tidak menjual data pribadi Anda dan tidak menggunakannya untuk iklan pihak ketiga.</p>
+<h3>3. Dasar pemrosesan</h3>
+<p>Kami memproses data Anda berdasarkan persetujuan yang Anda berikan saat mengirim formulir, dan untuk menindaklanjuti permintaan yang Anda ajukan. Anda dapat menarik persetujuan kapan saja dengan menghubungi Kami (lihat bagian Hak Anda).</p>
+<h3>4. Penyimpanan dan layanan pihak ketiga</h3>
+<p>Data formulir disimpan di Google Sheets melalui Google Apps Script yang dikelola Kami. Komunikasi lanjutan berlangsung melalui WhatsApp dan Gmail. Situs ini juga memuat font dari Google Fonts, sehingga alamat IP perangkat Anda dapat diterima Google saat halaman dibuka. Layanan-layanan tersebut memiliki kebijakan privasi masing-masing, dan data dapat diproses di server yang berada di luar Indonesia.</p>
+<h3>5. Pembagian data kepada pihak lain</h3>
+<p>Kami membagikan data hanya bila diperlukan untuk menjalankan layanan:</p>
+<ul>
+<li>Rincian kebutuhan barang dapat Kami teruskan kepada calon supplier untuk meminta penawaran. Data kontak dan identitas Anda tidak Kami bagikan tanpa sepengetahuan Anda, kecuali diperlukan untuk transaksi yang telah Anda setujui.</li>
+<li>Informasi supplier hanya dibagikan kepada klien setelah supplier menyetujui.</li>
+<li>Kami dapat mengungkapkan data bila diwajibkan oleh hukum atau permintaan resmi pihak berwenang.</li>
+</ul>
+<h3>6. Keamanan</h3>
+<p>Akses ke data dibatasi pada pihak yang berkepentingan di tim Kami dan dilindungi melalui akun Google yang diamankan. Meskipun demikian, tidak ada sistem yang sepenuhnya bebas risiko, dan Kami tidak dapat menjamin keamanan mutlak atas data yang dikirim melalui internet.</p>
+<h3>7. Lama penyimpanan</h3>
+<p>Data disimpan selama diperlukan untuk tujuan di atas. Data dihapus atau dianonimkan atas permintaan Anda, sepanjang tidak ada kewajiban hukum yang mengharuskan Kami menyimpannya.</p>
+<h3>8. Hak Anda</h3>
+<p>Sesuai Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi, Anda berhak meminta akses, perbaikan, atau penghapusan data Anda, menarik persetujuan, dan mengajukan keberatan atas pemrosesan data. Kirim permintaan ke <a href="mailto:sourcifynusantara@gmail.com">sourcifynusantara@gmail.com</a> dengan menyebutkan nama dan data yang Anda kirimkan. Kami akan menanggapi dalam waktu yang wajar.</p>
+<h3>9. Cookie</h3>
+<p>Situs ini tidak menggunakan cookie pelacakan atau cookie iklan.</p>
+<h3>10. Anak di bawah umur</h3>
+<p>Layanan Kami ditujukan bagi pelaku usaha dan individu berusia dewasa. Kami tidak dengan sengaja mengumpulkan data anak di bawah 18 tahun.</p>
+<h3>11. Perubahan kebijakan</h3>
+<p>Kami dapat memperbarui kebijakan ini sewaktu-waktu. Versi terbaru selalu tersedia di situs ini beserta tanggal pembaruannya.</p>
+<h3>12. Kontak</h3>
+<p>Sourcify Nusantara, Kabupaten Bogor, Provinsi Jawa Barat, Indonesia<br>WhatsApp: 0819 0971 5630<br>Email: <a href="mailto:sourcifynusantara@gmail.com">sourcifynusantara@gmail.com</a></p>`,
+"Syarat dan Ketentuan":`<p class="upd muted">${UPD}</p>
+<p>Dengan mengakses situs ini atau mengirim formulir kepada Sourcify Nusantara ("Kami"), Anda menyatakan telah membaca dan menyetujui syarat dan ketentuan berikut. Jika tidak setuju, mohon tidak menggunakan situs ini.</p>
+<h3>1. Tentang situs dan layanan</h3>
+<p>Situs ini memperkenalkan layanan procurement dan supplier sourcing B2B di Indonesia, serta membuka peluang kemitraan dan pendaftaran supplier. Informasi di situs bersifat umum dan dapat berubah sewaktu-waktu. Kami masih dalam tahap pengembangan jaringan, sehingga cakupan layanan dan kategori barang dapat berkembang atau berubah.</p>
+<h3>2. Formulir bukan perjanjian</h3>
+<p>Pengiriman formulir (permintaan pengadaan, minat kemitraan, atau profil supplier) hanya membuka komunikasi. Pengiriman formulir tidak menimbulkan kewajiban bagi Anda maupun Kami. Kerja sama baru mengikat setelah kedua pihak menyepakatinya secara tertulis, termasuk melalui pesan WhatsApp atau email yang secara jelas menyatakan persetujuan.</p>
+<h3>3. Layanan pengadaan untuk klien</h3>
+<ul>
+<li>Kami membantu mencari supplier, mengumpulkan penawaran, dan menyajikan perbandingan. Keputusan membeli sepenuhnya ada pada klien.</li>
+<li>Kami tidak menjamin ketersediaan barang, harga, waktu pengiriman, maupun keberhasilan pengadaan. Penawaran berlaku sesuai ketentuan masing-masing supplier dan dapat berubah.</li>
+<li>Biaya jasa, bila ada, dibahas dan disepakati sebelum pemesanan dilanjutkan. Tidak ada biaya yang dibebankan tanpa kesepakatan.</li>
+<li>Klien bertanggung jawab atas kebenaran spesifikasi dan informasi kebutuhan yang diberikan.</li>
+</ul>
+<h3>4. Kemitraan</h3>
+<ul>
+<li>Pendaftaran mitra bukan jaminan diterima dan bukan lowongan kerja. Tidak ada hubungan kerja, gaji tetap, maupun jaminan penghasilan sebelum ada kesepakatan tertulis.</li>
+<li>Ruang lingkup, target, kompensasi, dan tanggung jawab dibahas secara transparan dan disepakati tertulis sebelum kolaborasi dimulai.</li>
+<li>Kecuali disepakati lain, mitra bertindak sebagai pihak mandiri dan bukan karyawan atau agen yang berwenang mengikat Kami.</li>
+</ul>
+<h3>5. Supplier</h3>
+<ul>
+<li>Pendaftaran supplier tidak menjamin pesanan, omzet, atau kontrak.</li>
+<li>Supplier menjamin informasi, katalog, dan harga yang diberikan benar dan dapat dipertanggungjawabkan, serta berhak menjual produk tersebut.</li>
+<li>Informasi supplier dicatat dan dibagikan kepada klien setelah persetujuan supplier. Detail transaksi dan ketentuan kerja sama dikonfirmasi sebelum pemesanan.</li>
+</ul>
+<h3>6. Kewajiban pengguna</h3>
+<ul>
+<li>Memberikan data yang benar, akurat, dan terbaru.</li>
+<li>Tidak menggunakan situs untuk tujuan melanggar hukum, menipu, atau mengganggu sistem, termasuk mengirim spam atau data palsu.</li>
+<li>Tidak mengajukan pengadaan barang atau jasa yang dilarang oleh hukum Republik Indonesia. Kami berhak menolak permintaan tersebut.</li>
+</ul>
+<h3>7. Kerahasiaan dan data pribadi</h3>
+<p>Informasi yang Anda kirim hanya Kami gunakan untuk keperluan yang dijelaskan dalam <a href="#" data-doc="Kebijakan Privasi">Kebijakan Privasi</a>. Pihak yang menerima informasi bisnis dari pihak lain melalui Kami diharapkan menjaga kerahasiaannya dan tidak menyalahgunakannya.</p>
+<h3>8. Kekayaan intelektual</h3>
+<p>Nama, logo, tampilan, dan teks di situs ini adalah milik Sourcify Nusantara, kecuali dinyatakan lain. Konten tidak boleh disalin atau digunakan untuk tujuan komersial tanpa izin tertulis.</p>
+<h3>9. Batasan tanggung jawab</h3>
+<p>Sejauh diizinkan hukum, Kami tidak bertanggung jawab atas kerugian tidak langsung, kehilangan keuntungan, atau kerugian akibat keputusan yang diambil berdasarkan informasi di situs, perubahan harga atau stok supplier, keterlambatan atau kegagalan pengiriman oleh supplier, maupun gangguan layanan pihak ketiga seperti WhatsApp, Gmail, dan Google. Ketentuan ini tidak menghapus tanggung jawab yang menurut hukum tidak dapat dikecualikan.</p>
+<h3>10. Tautan dan layanan pihak ketiga</h3>
+<p>Situs ini menyediakan tautan ke WhatsApp dan email. Kami tidak mengendalikan dan tidak bertanggung jawab atas layanan, kebijakan, maupun konten pihak ketiga tersebut.</p>
+<h3>11. Perubahan</h3>
+<p>Kami dapat mengubah syarat dan ketentuan ini sewaktu-waktu. Versi terbaru berlaku sejak dipublikasikan di situs ini. Penggunaan situs setelah perubahan berarti Anda menyetujuinya.</p>
+<h3>12. Hukum yang berlaku dan penyelesaian sengketa</h3>
+<p>Syarat dan ketentuan ini tunduk pada hukum Republik Indonesia. Sengketa diupayakan diselesaikan terlebih dahulu secara musyawarah. Bila tidak tercapai kesepakatan, sengketa diselesaikan melalui pengadilan negeri yang berwenang di wilayah Kabupaten Bogor.</p>
+<h3>13. Kontak</h3>
+<p>Sourcify Nusantara, Kabupaten Bogor, Provinsi Jawa Barat, Indonesia<br>WhatsApp: 0819 0971 5630<br>Email: <a href="mailto:sourcifynusantara@gmail.com">sourcifynusantara@gmail.com</a></p>`
+};
+const ov2=$("#ov2"),md2=$("#modal2");
+function openDoc(name){
+  md2.innerHTML=`<div class="mh"><h2 id="mt2" style="font-size:1.6rem;margin:0">${name}</h2><button class="x" aria-label="Tutup" data-close2>×</button></div><div class="doc" style="margin-top:12px">${DOCS[name]}</div><div class="row"><button class="btn navy" data-close2>Tutup</button></div>`;
+  ov2.classList.add("on");document.body.style.overflow="hidden";ov2.scrollTop=0;md2.querySelector(".x").focus();
+}
+function closeDoc(){ov2.classList.remove("on");if(!ov.classList.contains("on"))document.body.style.overflow=""}
 function close(){ov.classList.remove("on");document.body.style.overflow="";if(last)last.focus()}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-form]");if(b){open(b.dataset.form,b.dataset.type);return}
+  if(e.target.closest("[data-close2]")||e.target===ov2){closeDoc();return}
   if(e.target.closest("[data-close]")||e.target===ov)close();
-  const d=e.target.closest("[data-doc]");if(d){e.preventDefault();alert(d.dataset.doc+": [DOKUMEN AKAN DILENGKAPI — isi sebelum peluncuran]")}
+  const d=e.target.closest("[data-doc]");if(d){e.preventDefault();openDoc(d.dataset.doc)}
 });
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("on"))close()});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(ov2.classList.contains("on"))closeDoc();else if(ov.classList.contains("on"))close()});
 const bg=$("#burger"),menu=$("#menu");
 bg.onclick=()=>{const o=menu.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
 menu.addEventListener("click",e=>{if(e.target.tagName==="A"){menu.classList.remove("open");bg.setAttribute("aria-expanded",false)}});

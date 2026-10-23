@@ -45,7 +45,7 @@ nav a{text-decoration:none;font-size:.95rem;opacity:.9}nav a:hover{opacity:1;col
 .hero .ghost{color:#fff}
 .note{font-size:.875rem;color:#9fb0d0;margin-top:20px}
 svg.net{width:100%;height:auto}
-.net .sn{--c:#2F6BFF;animation:nyalaSvg 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net .sn{--c:#2F6BFF;animation:nyalaSvg 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
 .net .sn.hub{--c:#19C3A0}
 .net .sn.sup{--c:#8B6CFF}
 .net .sn.dis{--c:#F28C38}
@@ -141,7 +141,7 @@ nav{padding:8px 18px 20px}
 .mini2{margin-top:24px;border-top:1px solid #ffffff26;padding-top:20px}
 .flowrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.4fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:0 0 12px}
 .nd{--c:#2F6BFF;background:color-mix(in srgb,var(--c) 24%,var(--navy2));border:1.5px solid var(--c);border-radius:10px;padding:11px 8px;text-align:center;color:#fff;font:700 .95rem/1.25 var(--h);overflow-wrap:normal;word-break:normal;hyphens:none;
-animation:nyala 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+animation:nyala 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
 .nd.hub{--c:#19C3A0}
 .nd.sup{--c:#8B6CFF}
 .nd.dis{--c:#F28C38}
@@ -152,11 +152,16 @@ animation:nyala 2s ease-in-out infinite;animation-delay:var(--d,0s)}
 }
 .ar{color:var(--gold);font:700 1.25rem/1 var(--h);text-align:center}
 .hero .fd{font-size:.95rem;color:#c7d0e4;margin:14px 0 0;max-width:none}
-@media(max-width:860px){.nd{font-size:.9rem;padding:10px 6px}}
+/* HP & tablet: belah dua kiri-kanan, tiap sisi tersusun vertikal */
+@media(max-width:860px){
+.flowpair{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;margin-bottom:12px}
+.flowrow{grid-template-columns:minmax(0,1fr);gap:4px;margin:0;justify-items:stretch;align-content:start}
+.nd{display:flex;align-items:center;justify-content:center;min-height:58px;padding:10px 8px;font-size:.95rem}
+.ar{transform:rotate(90deg);height:20px;display:grid;place-items:center}
+}
 @media(max-width:480px){
-.flowrow{grid-template-columns:1fr;gap:4px;margin-bottom:16px}
-.nd{font-size:1rem;padding:11px 12px}
-.ar{transform:rotate(90deg);height:18px;display:grid;place-items:center}
+.flowpair{gap:12px}
+.nd{font-size:.85rem;padding:10px 6px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
@@ -185,6 +190,7 @@ animation:nyala 2s ease-in-out infinite;animation-delay:var(--d,0s)}
 <button class="btn ghost" data-form="supplier">Daftarkan Supplier</button>
 </div>
 <div class="mini2">
+  <div class="flowpair">
   <div class="flowrow" role="group" aria-label="Klien terhubung ke supplier melalui procurement partner">
     <span class="nd" style="--d:0s">Klien</span><span class="ar" aria-hidden="true">↔</span>
     <span class="nd hub" style="--d:.35s">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
@@ -194,6 +200,7 @@ animation:nyala 2s ease-in-out infinite;animation-delay:var(--d,0s)}
     <span class="nd dis" style="--d:.2s">Distributor</span><span class="ar" aria-hidden="true">↔</span>
     <span class="nd hub" style="--d:.55s">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
     <span class="nd res" style="--d:.9s">Reseller</span>
+  </div>
   </div>
   <p class="fd">Semua pihak saling terhubung melalui Procurement Partner untuk mencocokkan kebutuhan barang, mencari sumber pengadaan, dan menghubungkan peluang bisnis.</p>
 </div>

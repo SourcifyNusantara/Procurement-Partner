@@ -127,7 +127,19 @@ h2{font-size:1.5rem;max-width:none}
 nav{padding:8px 18px 20px}
 }
 .doc h3{font-size:1.05rem;margin:1.5em 0 .4em}.doc p,.doc li{color:var(--muted);font-size:.97rem;max-width:none}.doc ul{padding-left:1.2em;margin:.3em 0 1em}.doc a{text-decoration:underline}.upd{font-size:.85rem}
-.mini2{margin-top:20px;border-top:1px solid #ffffff26;padding-top:18px}.hero .mini2 p{max-width:none}.hero .fl{color:#fff;font:700 1.02rem/1.4 var(--h);margin:0 0 8px}.fl em{color:var(--gold);font-style:normal;margin:0 4px}.hero .fd{font-size:.95rem;color:#c7d0e4;margin:12px 0 0}
+/* alur jaringan hero (presisi HP & tablet) */
+.mini2{margin-top:24px;border-top:1px solid #ffffff26;padding-top:20px}
+.flowrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.4fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:0 0 12px}
+.nd{background:#ffffff14;border:1px solid #ffffff2e;border-radius:10px;padding:11px 8px;text-align:center;color:#fff;font:700 .95rem/1.25 var(--h);overflow-wrap:normal;word-break:normal;hyphens:none}
+.nd.hub{background:var(--gold);border-color:var(--gold);color:#1b1405}
+.ar{color:var(--gold);font:700 1.15rem/1 var(--h);text-align:center}
+.hero .fd{font-size:.95rem;color:#c7d0e4;margin:14px 0 0;max-width:none}
+@media(max-width:860px){.nd{font-size:.9rem;padding:10px 6px}}
+@media(max-width:480px){
+.flowrow{grid-template-columns:1fr;gap:4px;margin-bottom:16px}
+.nd{font-size:1rem;padding:11px 12px}
+.ar{transform:rotate(90deg);height:18px;display:grid;place-items:center}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -154,7 +166,19 @@ nav{padding:8px 18px 20px}
 <button class="btn ghost" data-form="mitra">Jadi Mitra Procurement</button>
 <button class="btn ghost" data-form="supplier">Daftarkan Supplier</button>
 </div>
-<div class="mini2"><p class="fl">Klien <em>↔</em> Procurement Partner <em>↔</em> Supplier</p><p class="fl">Distributor <em>↔</em> Procurement Partner <em>↔</em> Reseller</p><p class="fd">Semua pihak saling terhubung melalui Procurement Partner untuk mencocokkan kebutuhan barang, mencari sumber pengadaan, dan menghubungkan peluang bisnis.</p></div>
+<div class="mini2">
+  <div class="flowrow" role="group" aria-label="Klien terhubung ke supplier melalui procurement partner">
+    <span class="nd">Klien</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd hub">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd">Supplier</span>
+  </div>
+  <div class="flowrow" role="group" aria-label="Distributor terhubung ke reseller melalui procurement partner">
+    <span class="nd">Distributor</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd hub">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd">Reseller</span>
+  </div>
+  <p class="fd">Semua pihak saling terhubung melalui Procurement Partner untuk mencocokkan kebutuhan barang, mencari sumber pengadaan, dan menghubungkan peluang bisnis.</p>
+</div>
 </div>
 <div class="vis"><svg class="net" viewBox="0 0 420 380" role="img" aria-label="Diagram jaringan: klien, procurement partner, dan supplier terhubung">
 <g stroke="#C2994B" stroke-width="1.5" fill="none" opacity=".7">

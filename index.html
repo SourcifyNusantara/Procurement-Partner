@@ -45,8 +45,18 @@ nav a{text-decoration:none;font-size:.95rem;opacity:.9}nav a:hover{opacity:1;col
 .hero .ghost{color:#fff}
 .note{font-size:.875rem;color:#9fb0d0;margin-top:20px}
 svg.net{width:100%;height:auto}
-.net .pulse{animation:pulse 3s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.35}}
+.net .sn{--c:#2F6BFF;animation:nyalaSvg 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net .sn.hub{--c:#19C3A0}
+.net .sn.sup{--c:#8B6CFF}
+.net .sn.dis{--c:#F28C38}
+.net .sn.res{--c:#E5547F}
+.net .sn circle{fill:color-mix(in srgb,var(--c) 24%,#142a52);stroke:var(--c);stroke-width:1.5}
+.net .sn .ring{fill:none;stroke-width:2}
+.net .sn .core{fill:var(--c);stroke:none}
+@keyframes nyalaSvg{
+0%,100%{opacity:1;filter:drop-shadow(0 0 8px var(--c))}
+50%{opacity:.35;filter:drop-shadow(0 0 0 transparent)}
+}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:20px;margin-top:36px}.cols2{grid-template-columns:1fr 1fr;margin:0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px}
 .card h3{margin-bottom:.4em}
@@ -130,8 +140,16 @@ nav{padding:8px 18px 20px}
 /* alur jaringan hero (presisi HP & tablet) */
 .mini2{margin-top:24px;border-top:1px solid #ffffff26;padding-top:20px}
 .flowrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.4fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:0 0 12px}
-.nd{background:var(--navy2);border:1.5px solid var(--blue);border-radius:10px;padding:11px 8px;text-align:center;color:#fff;font:700 .95rem/1.25 var(--h);overflow-wrap:normal;word-break:normal;hyphens:none;box-shadow:0 0 0 3px #2F6BFF1f}
-.nd.hub{background:var(--gold);border-color:var(--gold);color:#1b1405;box-shadow:0 0 0 4px #C2994B33,0 6px 18px #C2994B40}
+.nd{--c:#2F6BFF;background:color-mix(in srgb,var(--c) 24%,var(--navy2));border:1.5px solid var(--c);border-radius:10px;padding:11px 8px;text-align:center;color:#fff;font:700 .95rem/1.25 var(--h);overflow-wrap:normal;word-break:normal;hyphens:none;
+animation:nyala 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.nd.hub{--c:#19C3A0}
+.nd.sup{--c:#8B6CFF}
+.nd.dis{--c:#F28C38}
+.nd.res{--c:#E5547F}
+@keyframes nyala{
+0%,100%{opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent),0 0 22px var(--c)}
+50%{opacity:.35;box-shadow:0 0 0 0 transparent,0 0 0 0 transparent}
+}
 .ar{color:var(--gold);font:700 1.25rem/1 var(--h);text-align:center}
 .hero .fd{font-size:.95rem;color:#c7d0e4;margin:14px 0 0;max-width:none}
 @media(max-width:860px){.nd{font-size:.9rem;padding:10px 6px}}
@@ -168,14 +186,14 @@ nav{padding:8px 18px 20px}
 </div>
 <div class="mini2">
   <div class="flowrow" role="group" aria-label="Klien terhubung ke supplier melalui procurement partner">
-    <span class="nd">Klien</span><span class="ar" aria-hidden="true">↔</span>
-    <span class="nd hub">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
-    <span class="nd">Supplier</span>
+    <span class="nd" style="--d:0s">Klien</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd hub" style="--d:.35s">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd sup" style="--d:.7s">Supplier</span>
   </div>
   <div class="flowrow" role="group" aria-label="Distributor terhubung ke reseller melalui procurement partner">
-    <span class="nd">Distributor</span><span class="ar" aria-hidden="true">↔</span>
-    <span class="nd hub">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
-    <span class="nd">Reseller</span>
+    <span class="nd dis" style="--d:.2s">Distributor</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd hub" style="--d:.55s">Procurement Partner</span><span class="ar" aria-hidden="true">↔</span>
+    <span class="nd res" style="--d:.9s">Reseller</span>
   </div>
   <p class="fd">Semua pihak saling terhubung melalui Procurement Partner untuk mencocokkan kebutuhan barang, mencari sumber pengadaan, dan menghubungkan peluang bisnis.</p>
 </div>
@@ -184,12 +202,16 @@ nav{padding:8px 18px 20px}
 <g stroke="#C2994B" stroke-width="1.5" fill="none" opacity=".7">
 <path d="M80 80L210 190M340 80L210 190M210 190L80 300M210 190L340 300M80 80L340 80M80 300L340 300"/>
 </g>
-<g class="pulse" stroke="#2F6BFF" stroke-width="2" fill="none"><circle cx="210" cy="190" r="62"/></g>
-<circle cx="210" cy="190" r="46" fill="#C2994B"/>
-<text x="210" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1405">Procurement</text>
-<text x="210" y="204" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1405">Partner</text>
-<g fill="#142a52" stroke="#2F6BFF" stroke-width="1.5"><circle cx="80" cy="80" r="38"/><circle cx="340" cy="80" r="38"/><circle cx="80" cy="300" r="38"/><circle cx="340" cy="300" r="38"/></g>
-<g fill="#fff" font-size="12" font-weight="600" text-anchor="middle"><text x="80" y="84">Klien</text><text x="340" y="84">Supplier</text><text x="80" y="304">Distributor</text><text x="340" y="304">Reseller</text></g>
+<g class="sn hub" style="--d:.35s">
+<circle class="ring" cx="210" cy="190" r="62"/>
+<circle class="core" cx="210" cy="190" r="46"/>
+<text x="210" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#04241d">Procurement</text>
+<text x="210" y="204" text-anchor="middle" font-size="13" font-weight="700" fill="#04241d">Partner</text>
+</g>
+<g class="sn" style="--d:0s"><circle cx="80" cy="80" r="38"/><text x="80" y="84" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Klien</text></g>
+<g class="sn sup" style="--d:.7s"><circle cx="340" cy="80" r="38"/><text x="340" y="84" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Supplier</text></g>
+<g class="sn dis" style="--d:.2s"><circle cx="80" cy="300" r="38"/><text x="80" y="304" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Distributor</text></g>
+<g class="sn res" style="--d:.9s"><circle cx="340" cy="300" r="38"/><text x="340" y="304" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Reseller</text></g>
 </svg>
 </div>
 </div>
